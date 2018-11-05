@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}장고 게시글 보기{% endblock %}
+{% load staticfiles %}
+{% block extrastyle %}{% static "css/tabular.css" %}{% endblock %}
+{% block content %}
+    <!--div#content 내부로 전체 콘텐츠 이동-->
+    <div id="content" class="centered">
+        <h2>{{ object.title }}</h2>
+
+        <p class="other_posts">
+            <!--object.get_previous_by_modify_date 함수는 modify_date 기준으로 이전 객체를 반환-->
+            {% if object.get_previous_by_modify_date %}
+                <!--blog.Post.get_previous_post 함수는 이전 객체를 반환 -->
+                <!--get_absolute_url 함수는 /blog/post/slug단어 형태의 URL 패턴을 반환-->
+                <!--'&laquo;'는 HTML 특수 문자 '<<'를 의미함-->
+                <a href="{{ object.get_previous_post.get_absolute_url }}" title="View previous post">
+                    &laquo;-- {{ object.get_previous_post }}
+                </a>
+            {% endif %}
+
+            {% if object.get_next_by_modify_date %}
+                &nbsp; |
+                <!--blog.Post.get_next_post 함수는 다음 객체를 반환 -->
+                <!--get_absolute_url 함수는 /blog/post/slug단어 형태의 URL 패턴을 반환-->
+                <!--'&raquo;'는 HTML 특수 문자 '>>'를 의미함-->
+                <a href="{{ object.get_next_post.get_absolute_url }}" title="View next post">
+                    {{ object.get_next_post }} --&raquo;
+                </a>
+            {% endif %}
+        </p>
+        <!--object.modify_date를 파이프(|)를 통하여 date:"j F Y" 형식으로 출력-->
+        <p class="date">{{ object.modify_date|date:"j F Y" }}</p>
+        <br/>
+
+        <div class="body">
+            <!--object.content를 파이프(|)를 통하여 linebreaks 탬플릿 필터로 처리하여
+             개행문자'\n'를 인식하도록 조치함-->
+            {{ object.content|linebreaks }}
+        </div>
+    </div>
+{% endblock %}}

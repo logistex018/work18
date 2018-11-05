@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}장고 게시글 목록{% endblock %}
+{% load staticfiles %}
+{% block extrastyle %}{% static "css/tabular.css" %}{% endblock %}
+{% block content %}
+    <!--div#content 내부로 전체 콘텐츠 이동-->
+    <div id="content">
+        <h1 class="centered">{{ year|date:"Y" }}년 게시글 모음</h1>
+        <ul class="centered">
+            {% for date in date_list %}
+            <li style="display: inline">
+                <a href="{% url 'blog:post_month_archive' year|date:'Y' date|date:'b' %}">
+                    <!--월 제목을 "F" 형태(예: July)로 출력 -->
+                    <!--{{ date|date:"F" }}-->
+                    {{ date|date:"m" }}월
+                </a>
+                &nbsp; &nbsp;
+            </li>
+            {% endfor %}
+        </ul>
+        <br/>
+        <div class="leftpadding30percent">
+            <ul>
+                {% for post in object_list %}
+                <li>
+                    {{ post.modify_date|date:"Y-m-d" }}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{{ post.get_absolute_url }}">
+                        <strong>{{ post.title }}</strong>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

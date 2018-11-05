@@ -1,0 +1,30 @@
+{% extends "base.html" %}  <!--반드시 첫 줄에 있어야 함-->
+{% block title %}장고 책갈피 목록{% endblock %}
+{% load staticfiles %}
+{% block extrastyle %}{% static "css/tabular.css" %}{% endblock %}
+{% block content %} <!--콘텐츠 블록 재정의-->
+    <div id="content"> <!--base.css 내부의 div#contents 스타일 적용-->
+        <h1>바로가기 모음</h1>
+        <table id="tbl" >
+            <tr>
+                <th>id</th>
+                <th>title</th>
+                <th>url</th>
+            </tr>
+            {% for bookmark in object_list %} <!-- 디폴트 컨텍스트 변수가 objecct_list -->
+                <tr>
+                    <td>{{ bookmark.id }}</td>
+                    <td>{{ bookmark.title }}</td>
+                    <td>
+                        <!-- bookmark 이름공간의 detail이라는 name을 가지는 url로-->
+                        <!-- 연결하면서 bookmark.id를 매개변수로 전달-->
+                        <a href="{% url 'bookmark:detail' bookmark.id %}">
+                            {{ bookmark.url }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
+

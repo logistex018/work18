@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}장고 게시글 저장소{% endblock %}
+{% load staticfiles %}
+{% block extrastyle %}{% static "css/tabular.css" %}{% endblock %}
+{% block content %}
+    <!--div#content 내부로 전체 콘텐츠 이동-->
+    <div id="content">
+        <!--now 템플릿 태그는 현재 일시를 "N d, Y" 형식(July 18, 2015)으로 출력  -->
+        <h1 class="centered">{% now "Y년 m월 d일" %}까지 게시글 모음</h1>
+        <ul class="centered">
+            {% for date in date_list %}
+                <li style="display: inline;">
+                    <a href="{% url 'blog:post_year_archive' date|date:'Y' %}">
+                        {{ date|date:"Y" }}년
+                    </a>
+                </li>&nbsp;&nbsp;
+            {% endfor %}
+        </ul>
+        <br/>
+        <div class="leftpadding30percent">
+            <ul>
+                <!--기본 컨텍스트 변수로 object_list 및 lates 모두 가능함-->
+                <!--latest는 ArchiveIndexView에서 정의된 변수임-->
+                {% for post in object_list %}
+                    <li>
+                        <!--순서 없는 리스트로 게시글 수정일과 제목을 공백 3개로 구분하여 출력-->
+                        {{ post.modify_date|date:"Y-m-d" }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="{{ post.get_absolute_url }}">
+                            <strong>{{ post.title }}</strong>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+

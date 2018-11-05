@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}장고 게시글 저장소{% endblock %}
+{% load staticfiles %}
+{% block extrastyle %}{% static "css/tabular.css" %}{% endblock %}
+{% block content %}
+    <!--div#content 내부로 전체 콘텐츠 이동-->
+    <div id="content">
+        <h1 class="centered">{{ month|date:"Y년 m월" }} 게시글 모음</h1>
+
+        <div class="leftpadding30percent">
+            <ul>
+                {% for post in object_list %}
+                <li>
+                    {{ post.modify_date|date:"Y-m-d" }}&nbsp;&nbsp;&nbsp;
+                    <a href="{{ post.get_absolute_url }}">
+                        <strong>{{ post.title }}</strong>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}                   <!--base.html을 상속받는다고 선언-->
+
+{% block title %}home.html{% endblock %}    <!--title 블록 재정의-->
+
+<!--정적 파일인 css 연결하기 위하여, staticfiles를 로드-->
+{% load staticfiles %}
+<!--extrastyle 블록을 재정의하여 추가적으로 home.css 연결-->
+{% block extrastyle %}{% static "css/home.css" %}{% endblock %}
+
+{% block content %}                         <!--content 블록 재정의-->
+
+<div id="content_home">     <!--content_home 영역 정의-->
+
+    <div id="homeimg">      <!--homeimg 영역 정의-->
+        <!--<a href="/"><img src="{% static 'img/django-actor-big.jpg' %}" style="height:256px;"/></a>-->
+        <a href="/"><img src="{% static 'img/python_django.jpg' %}" style="height:256px;"/></a>
+        <h4 style="margin: 0;">장고 프레임워크로 개발한 웹 사이트입니다.</h4>
+    </div>
+
+    <hr style="margin: 5px 0;">     <!--그림 밑으로 5px 간격을 두고 수평선 넣기-->
+
+    <h2>웹 앱 선택</h2>
+
+    <table id="applist">
+        <tr>
+        <td><b><i><a href="{% url 'bookmark:index' %}">책갈피</a></i><b></td>
+        <td>당신의 책갈피를 등록하고 다른 사람들과 공유할 수 있습니다. 어쩌구 저쩌구. 중얼중얼.</td>
+        <td id="Edit"><i><a href="#">등록</a></i></td>
+        <td id="Edit"><i><a href="#">편집</a></i></td>
+        </tr>
+
+        <tr>
+        <td><b><i><a href="{% url 'blog:index' %}">게시판</a></i><b></td>
+        <td>당신의 게시물을 등록하고 다른 사람들과 공유할 수 있습니다. 어쩌구 저쩌구.</td>
+        <td id="Edit"><i><a href="#">등록</a></i></td>
+        <td id="Edit"><i><a href="#">편집</a></i></td>
+        </tr>
+
+        <tr>
+        <td><b><i><a href="#">사진첩</a></i><b></td>
+        <td>당신의 사진을 등록하고 다른 사람들과 공유할 수 있습니다. 어쩌구 저쩌구.</td>
+        <td id="Edit"><i><a href="#">등록</a></i></td>
+        <td id="Edit"><i><a href="#">편집</a></i></td>
+        </tr>
+    </table>
+</div>
+{% endblock content %}
+
+{% block footer %}                      <!--footer 블록 재정의-->
+<div id="footer">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Copyleft.svg/220px-Copyleft.svg.png"
+         height="12" width="12" /> logistex 2018
+</div>
+{% endblock footer %}

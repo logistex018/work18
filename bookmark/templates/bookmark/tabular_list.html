@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>장고 북마크 리스트</title>
+    <style>
+        #tbl {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 90%;
+            margin: auto;
+        }
+
+        #tbl td, #tbl th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #tbl tr:nth-child(even){background-color: #f2f2f2;}
+
+        #tbl tr:hover {background-color: #ddd;}
+
+        #tbl th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <h1>바로가기 모음</h1>
+        <p> {{ request.path }} => views.tabularBookmark => tabular_list.html </p>
+        <table id="tbl" >
+            <tr>
+                <th>id</th>
+                <th>title</th>
+                <th>url</th>
+            </tr>
+            {% for bookmark in bookmarks %} <!-- bookmarks로 쿼리셋을 넘겼음 -->
+                <tr>
+                    <td>{{ bookmark.id }}</td>
+                    <td>{{ bookmark.title }}</td>
+                    <td>
+                        <!-- name이 'detail'인 url 패턴으로 연결하되
+                        bookmark.id가 pk 매개변수로 지정되어
+                        /bookmark/99/와 같은 url 패턴으로 처리됨.
+                        따라서 BookmarkDV.as_view() 메소드가 담당하여
+                        bookmark_detail.html로 연결함.  -->
+                        <a href="{% url 'bookmark:detail' bookmark.id %}">
+                        <!--url 패턴의 이름을 명시할 때, -->
+                        <!--'detail'이 아니라 'bookmark:detail'로 수정해야 함    -->
+                            {{ bookmark.url }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
+

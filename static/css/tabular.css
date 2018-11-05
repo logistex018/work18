@@ -1,0 +1,25 @@
+#tbl {
+    border-collapse: collapse;
+    width: 90%;
+    margin: auto;
+}
+
+#tbl td, #tbl th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#tbl tr:nth-child(even){background-color: #f2f2f2;}
+
+#tbl tr:hover {background-color: #ddd;}
+
+#tbl th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.centered { text-align: center;}
+.leftpadding30percent { padding-left: 30%; }
