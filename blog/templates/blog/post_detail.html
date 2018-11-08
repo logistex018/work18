@@ -5,37 +5,54 @@
 {% block content %}
     <!--div#content 내부로 전체 콘텐츠 이동-->
     <div id="content" class="centered">
-        <h2>{{ object.title }}</h2>
-
         <p class="other_posts">
-            <!--object.get_previous_by_modify_date 함수는 modify_date 기준으로 이전 객체를 반환-->
             {% if object.get_previous_by_modify_date %}
-                <!--blog.Post.get_previous_post 함수는 이전 객체를 반환 -->
-                <!--get_absolute_url 함수는 /blog/post/slug단어 형태의 URL 패턴을 반환-->
-                <!--'&laquo;'는 HTML 특수 문자 '<<'를 의미함-->
-                <a href="{{ object.get_previous_post.get_absolute_url }}" title="View previous post">
+                <a href="{{ object.get_previous_post.get_absolute_url }}" title="이전 글">
                     &laquo;-- {{ object.get_previous_post }}
                 </a>
+            {% else %}
+                첫 글
             {% endif %}
-
+            &nbsp;&nbsp; | &nbsp;&nbsp;
             {% if object.get_next_by_modify_date %}
-                &nbsp; |
-                <!--blog.Post.get_next_post 함수는 다음 객체를 반환 -->
-                <!--get_absolute_url 함수는 /blog/post/slug단어 형태의 URL 패턴을 반환-->
-                <!--'&raquo;'는 HTML 특수 문자 '>>'를 의미함-->
-                <a href="{{ object.get_next_post.get_absolute_url }}" title="View next post">
+                <a href="{{ object.get_next_post.get_absolute_url }}" title="다음 글">
                     {{ object.get_next_post }} --&raquo;
                 </a>
+            {% else %}
+                끝 글
             {% endif %}
         </p>
-        <!--object.modify_date를 파이프(|)를 통하여 date:"j F Y" 형식으로 출력-->
-        <p class="date">{{ object.modify_date|date:"j F Y" }}</p>
-        <br/>
 
-        <div class="body">
-            <!--object.content를 파이프(|)를 통하여 linebreaks 탬플릿 필터로 처리하여
-             개행문자'\n'를 인식하도록 조치함-->
-            {{ object.content|linebreaks }}
-        </div>
+        <br/>
+        <table id="tbl">
+            <tr>
+                <th>구분</th>
+                <th>내용</th>
+            </tr>
+            <tr>
+                <td>제목</td>
+                <td><h2>{{ object.title }}</h2></td>
+            </tr>
+            <tr>
+                <td>슬러그</td>
+                <td>{{ object.slug }}</td>
+            </tr>
+            <tr>
+                <td>요약</td>
+                <td>{{ object.description }}</td>
+            </tr>
+            <tr>
+                <td>본문</td>
+                <td>{{ object.content|linebreaks }}</td>
+            </tr>
+            <tr>
+                <td>등록 일자</td>
+                <td>{{ object.create_date|date:"Y년 m월 d일"  }}</td>
+            </tr>
+            <tr>
+                <td>수정 일자</td>
+                <td>{{ object.modify_date|date:"Y년 m월 d일" }}</td>
+            </tr>
+        </table>
     </div>
 {% endblock %}}
