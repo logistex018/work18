@@ -5,7 +5,7 @@
 {% block content %}
     <!--div#content 내부로 전체 콘텐츠 이동-->
     <div id="content">
-        <h1>블로그 목록 (표 형식)</h1>
+        <h1 class="centered">블로그 목록 (표 형식)</h1>
         <table id="tbl">
             <tr>
                 <th>번호</th>
@@ -31,12 +31,16 @@
             <span>  <!--span 요소는 인라인 요소-->
                 {% if page_obj.has_previous %}
                     <a href="?page={{ page_obj.previous_page_number }}">이전 페이지</a>
+                {% else %}
+                    첫 페이지
                 {% endif %}
 
-                {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+                &nbsp;&nbsp;&nbsp;( {{ page_obj.number }} / {{ page_obj.paginator.num_pages }} )&nbsp;&nbsp;&nbsp;
 
                 {% if page_obj.has_next %}
                     <a href="?page={{ page_obj.next_page_number }}">다음 페이지</a>
+                {% else %}
+                    끝 페이지
                 {% endif %}
             </span>
         </div>
