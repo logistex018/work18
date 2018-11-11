@@ -22,7 +22,6 @@
                 끝 글
             {% endif %}
         </p>
-
         <br/>
         <table id="tbl">
             <tr>
@@ -52,6 +51,29 @@
             <tr>
                 <td>수정 일자</td>
                 <td>{{ object.modify_date|date:"Y년 m월 d일" }}</td>
+            </tr>
+            <!--ch07 추가-->
+            <!--tagging 패키지에 정의된 커스텀 태그 사용을 위해 tagging_tags 모듈을 적재-->
+            {% load tagging_tags %}
+            <!--tags_for_object 커스텀 태그를 사용하여 object 객체에 지정된 태그 리스트를 추출하여-->
+            <!--tags 템플릿 변수에 저장, 여기서 object 객체는 PostDV 뷰에서 전달받는 컨텍스트 변수로서,-->
+            <!--특정 Post 객체가 저장되어 있음-->
+            {% tags_for_object object as tags %}
+            <tr> <!--게시글마다 지정된 태그를 출력-->
+                <td>태그</td>
+                <td>
+                    {% for tag in tags %}
+                        <a href="{% url 'blog:tagged_object_list' tag.name %}">{{tag.name}}&nbsp;&nbsp;</a>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr> <!--게시판에 지정된 태그 클라우드를 출력-->
+                <td>태그 클라우드</td>
+                <td>
+                    <!--http://localhost:8000/blog/tag/-->
+                    <!--embed 태그를 활용해서 src에 지정된 템플릿을 해당 영역에 출력-->
+                    <embed type="text/html" src="{% url 'blog:tag_cloud' %}">
+                </td>
             </tr>
         </table>
     </div>

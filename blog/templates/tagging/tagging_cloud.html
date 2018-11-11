@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../static/tagging/tag.css">
+</head>
+<body>
+<div id="content">
+    <div class="tag-cloud">
+        {% load tagging_tags %}
+        <!--tag_cloud_for_model 커스텀 태그를 사용하여 태그 클라우드 표현 방식을 정의-->
+        <!--blog.Post: 태그를 추출할 대상 모델-->
+        <!--as tags: 추출한 태그를 tags에 저장-->
+        <!--with steps=6 min_count=1: 태그 폰트 크기 범위를 1~6, 출력용 최소 사용 횟수를 1로 지정-->
+        <!--distribution=log: 태그 폰트 크기를 지정할 때 수학 로그 알고리즘을 적용-->
+        {% tag_cloud_for_model blog.Post as tags with steps=6 min_count=1 distribution=log %}
+        {% for tag in tags %}
+        <span class="tag-{{tag.font_size}}">
+            <a href="{% url 'blog:tagged_object_list' tag.name %}" target="_parent">
+                {{tag.name}}({{tag.font_size}})
+            </a>
+        </span>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>

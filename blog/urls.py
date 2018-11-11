@@ -47,6 +47,17 @@ urlpatterns = [
 
     # Example: /today/
     url(r'^today/$', PostTAV.as_view(), name='post_today_archive'),
+
+    # /blog/tag/ URL 요청을 처리할 뷰 클래스 지정, 태그 클라우드 출력용 뷰
+    # Example: /tag/
+    url(r'^tag/$', TagTV.as_view(), name='tag_cloud'),
+
+    # /blog/tag/태그 이름/ 요청을 처리할 뷰 클래스 지정
+    # r'...': 이스케이프되지 않는 raw 스트링임을 표시
+    # [^/]+ : / 이외 문자가 한번 이상 반복
+    # (?u)  : 앞의 표현식을 유니코드로 인식하라고 지정(주소창에 한글 입력 가능하도록)
+    # Example: /tag/tagname
+    url(r'^tag/(?P<tag>[^/]+(?u))/$', PostTOL.as_view(), name='tagged_object_list'),
 ]
 # 위에서 지정한 name 항목을 템플릿에서 사용할 때에는 이름공간을 포함하여,
 # blog:index, blog:post_list, blog:post_detail, blog:post_archive, ... 로 명시해야 함

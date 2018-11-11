@@ -1,10 +1,25 @@
 # 뷰 작성에 필요한 클래스형 제넥릭 뷰 임포트
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView # ch07추가01 TemplateView
 # 뷰 작성에 필요한 날짜 제네릭 뷰 임포트
 from django.views.generic.dates import ArchiveIndexView, \
     YearArchiveView, MonthArchiveView, DayArchiveView, TodayArchiveView
 # blog.models.Post 클래스 임포트
 from blog.models import Post
+from tagging.models import Tag, TaggedItem                          # ch07추가02
+from tagging.views import TaggedObjectList                          # ch07추가03
+
+# 아래 두 클래스 추가                                               # ch07추가04
+# TemplateView 제네릭 뷰는 테이블 처리 없이 단순 템플릿 렌더링 처리만 담당하는 뷰
+class TagTV(TemplateView) :
+    template_name = 'tagging/tagging_cloud.html' # 태그 클라우드를 출력하는 템플릿
+
+# TaggedObjectList는 ListView를 상속받는 뷰로서,
+# tagging 패키지는 tagging 패키지의 views.py에 정의되어 있는데,
+# 모델과 태그가 지정되면, 해당 태그가 지정된 모델의 객체 리스트를
+# 지정된 템플릿에 전달하는 역할
+class PostTOL(TaggedObjectList) :
+    model = Post
+    template_name = 'tagging/tagging_post_list.html'
 
 # ListView를 상속받아서 PostLV 작성
 class PostLV(ListView) :

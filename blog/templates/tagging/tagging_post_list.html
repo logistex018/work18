@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}태그된 게시글 목록{% endblock %}
+{% load staticfiles %}
+{% block extrastyle %}{% static "css/tabular.css" %}{% endblock %}
+{% block content %}
+    <div id="content"> <!--post_all.html과 동일한 형식-->
+        <h1 class="centered">'{{ tag.name }}' 태그된 게시글 목록</h1>
+        <table id="tbl">
+            <tr>
+                <th>번호</th>
+                <th>최종 수정일</th>
+                <th>제목</th>
+                <th>슬러그</th>
+                <th>요약</th>
+            </tr>
+            {% for post in object_list %}
+            <tr>
+                <td>{{ post.id }}</td>
+                <td>{{ post.modify_date|date:"Y년 m월 d일" }}</td>
+                <td>
+                    <a href='{{ post.get_absolute_url }}'>
+                        <strong>{{ post.title }}</strong>
+                    </a>
+                </td>
+                <td>{{ post.slug }}</td>
+                <td>{{ post.description }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
