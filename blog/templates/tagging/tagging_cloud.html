@@ -17,8 +17,8 @@
         {% for tag in tags %}
         <span class="tag-{{tag.font_size}}">
             <a href="{% url 'blog:tagged_object_list' tag.name %}" target="_parent">
-                {{tag.name}}({{tag.font_size}})
-            </a>
+                {{tag.name}}
+            </a>&nbsp;
         </span>
         {% endfor %}
     </div>

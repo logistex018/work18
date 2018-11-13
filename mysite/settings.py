@@ -44,7 +44,11 @@ INSTALLED_APPS = [
     'bookmark.apps.BookmarkConfig',     # (ch02) bookmark 앱을 추가 등록
     'blog.apps.BlogConfig',             # (ch03) blog 앱을 추가 등록
     'tagging.apps.TaggingConfig',       # (ch07) tagging 앱을 추가 등록
+    'disqus',                           # (ch08) 1/4
+    'django.contrib.sites',             # (ch08) 2/4
 ]
+DISQUS_WEBSITE_SHORTNAME = 'logistex'   # (ch08) 3/4
+SITE_ID = 1                             # (ch08) 4/4
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
