@@ -1,6 +1,6 @@
 body {
     font-family: 'Sunflower', sans-serif;
-    font-size: 16px;    /* ch08 1/1 */
+    font-size: 12px;    /* ch08 1/1 */
 }
 
 /* PAGE STRUCTURE */
@@ -16,7 +16,7 @@ div#header {
 
 div#menu {
     position: absolute;
-    top: 30px;
+    top: 31px;
     left: 0px;
     height: 20px;
     width: 100%;
@@ -29,7 +29,7 @@ div#menu {
 
 div#content {
     position: absolute;
-    top: 70px;
+    top: 72px;
     left: 50px;
     right: 50px;
 }

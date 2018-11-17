@@ -8,6 +8,11 @@ from blog.models import Post
 from tagging.models import Tag, TaggedItem                          # ch07추가02
 from tagging.views import TaggedObjectList                          # ch07추가03
 
+from django.views.generic.edit import FormView  # ch09추가 1/2 시작
+from blog.forms import PostSearchForm           #
+from django.db.models import Q                  # 검색 기능에 필요한 클래스
+from django.shortcuts import render             # ch09추가 1/2 종료 # 단축 함수 render()
+
 # 아래 두 클래스 추가                                               # ch07추가04
 # TemplateView 제네릭 뷰는 테이블 처리 없이 단순 템플릿 렌더링 처리만 담당하는 뷰
 class TagTV(TemplateView) :
@@ -74,3 +79,43 @@ class PostTAV(TodayArchiveView) :
     # URLconf에서 지정한 당일(today)에 해당하는 object_list를 구성하고
     # 이를 템플릿에 전달함
 
+# ch09 추가 2/2 시작
+# FormView를 상속받아 SearchFormView 작성
+# FormView는 GET 요청인 경우 폼을 화면에 보여주고 사용자 입력을 대기함
+# 사용자가 폼에 데이터 입력 후 제출하면 이는 POST 요청으로 접수되고
+# 입력 데이터에 대한 유효성 검사를 실시하여 유효하면
+# form_valid() 함수를 실행한 후 적절한 URL로 리다이렉트 처리함
+class SearchFormView(FormView):
+    form_class = PostSearchForm             # 폼으로 사용할 클래스를 지정
+    template_name = 'blog/post_search.html' # 템플릿 지정
+
+    # 입력 데이터에 대한 유효성 검사를 실시하여 유효하면 실행될 함수
+    def form_valid(self, form) :
+	    # POST 요청의 id가 'search_word'인 값을 추출하여 변수에 저장
+        schWord = '%s' % self.request.POST['search_word']
+	    # filter() 메소드의 매칭 조건을 Q 객체로 다양하게 지정 가능함
+	    # 각 조건에서 icontains 연산자는 대소문자 구별 없이 검색어가 포함되었는지 검사
+	    # distinct() 메소드는 중복된 객체를 제외함
+	    # 결국, Post 테이블의 모든 레코드에 대하여 title, description, content 필드에
+	    # schWord가 포함된 레코드를 대소문자 구별 없이 검색해서 중복 없는 리스트로 저장
+        post_list = Post.objects.filter(
+	        Q(title__icontains=schWord) |
+	        Q(description__icontains=schWord) |
+	        Q(content__icontains=schWord) |
+	        Q(tag__icontains=schWord)
+        ).distinct()
+
+        # 템플릿에 전달할 맥락 변수 context를 사전 형식으로 정의
+        context = {}
+        context['form'] = form  # 여기서 form은 PostSearchForm을 지칭함
+        context['search_term'] = schWord
+        context['object_list'] = post_list
+
+		# 단축 함수 render()는 템플릿과 맥락 변수를 처리하여,
+	    # 최종적으로 HttpResponse 객체를 반환
+	    # 일반적으로 form_valid() 함수는 리다이렉트 처리를 위하여
+	    # HttpResponseRedirect 객체를 반환하는데,
+	    # 여기서는 render() 함수가 HttpResponse 객체를 반환하므로
+	    # 리다이렉트 처리가 되지 않게됨.
+        return render(self.request, self.template_name, context)
+# ch09 추가 2/2 종료

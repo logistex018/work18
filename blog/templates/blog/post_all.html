@@ -13,6 +13,7 @@
                 <th>제목</th>
                 <th>슬러그</th>
                 <th>요약</th>
+                <th>태그</th>
             </tr>
             {% for post in posts %}
             <tr>
@@ -25,6 +26,7 @@
                 </td>
                 <td>{{ post.slug }}</td>
                 <td>{{ post.description }}</td>
+                <td>{{ post.tag }}</td>
             </tr>
             {% endfor %}
         </table>
