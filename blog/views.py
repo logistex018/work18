@@ -113,22 +113,40 @@ class SearchFormView(FormView):
         ).distinct()
         # 개별 검색 2/
         my_post_list = []
+        ln = len(my_post_list)
+
         if schTitle :
             my_post_list += Post.objects.filter(
                 Q(title__icontains=schTitle)
             ).distinct()
+        if len(my_post_list) > ln :
+            ln = len(my_post_list)
+        else:
+            schTitle = None
         if schDescription :
             my_post_list += Post.objects.filter(
                 Q(description__icontains=schDescription)
             ).distinct()
+        if len(my_post_list) > ln :
+            ln = len(my_post_list)
+        else:
+            schDescription = None
         if schContent :
             my_post_list += Post.objects.filter(
                 Q(content__icontains=schContent)
             ).distinct()
+        if len(my_post_list) > ln:
+            ln = len(my_post_list)
+        else:
+            schContent = None
         if schTag :
             my_post_list += Post.objects.filter(
                 Q(tag__icontains=schTag)
             ).distinct()
+        if len(my_post_list) > ln:
+            ln = len(my_post_list)
+        else:
+            schTag = None
         # 템플릿에 전달할 맥락 변수 context를 사전 형식으로 정의
         context = {}
         context['form'] = form  # 여기서 form은 PostSearchForm을 지칭함
@@ -146,5 +164,7 @@ class SearchFormView(FormView):
 	    # HttpResponseRedirect 객체를 반환하는데,
 	    # 여기서는 render() 함수가 HttpResponse 객체를 반환하므로
 	    # 리다이렉트 처리가 되지 않게됨.
+
+        # form = PostSearchForm()
         return render(self.request, self.template_name, context)
 # ch09 추가 1/1 종료

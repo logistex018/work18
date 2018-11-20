@@ -10,11 +10,16 @@
     <!--form 태그로 폼을 출력, 확인 누르면 POST 방식으로 요청을 동일한 URL로 전송-->
     <!--CSRF 공격(Cross Site Request Forgery) 출처: http://itstory.tk/entry/CSRF-공격이란-그리고-CSRF-방어-방법 [덕's IT Story]-->
     <!--csrf-token 태그를 써서 CSRF 공격을 방지-->
-    <form id="my_form" action="." method="post" class="centered"> {% csrf_token %}
+    <form id="my_form" action="." method="post" class="centered">
+        {% csrf_token %}
         <!--form은 뷰가 넘겨준 PostSearchForm을 의미함-->
-        {{ form.as_p }}
+        <!--as_table, as_ul, as_p-->
+        <table>
+             {{ form.as_table }}
+        </table>
         <!--<button>초기화</button>-->
         <input type="submit" value="확인" />
+        <!--<input type="button" value="Reset" onClick="this.form.reset()" />-->
     </form>
     <br/><br/>
     {% if object_list and search_term %}
@@ -49,15 +54,20 @@
 
     <br/><br/>
     {% if my_object_list %}
+        <h2 class="centered">
         {% if search_title %}
-            <h2 class="centered">({{ search_title }})에 대한 제목 검색 결과</h2>
-        {% elif search_description %}
-            <h2 class="centered">({{ search_description }})에 대한 요약 검색 결과</h2>
-        {% elif search_content %}
-            <h2 class="centered">({{ search_content }})에 대한 요약 검색 결과</h2>
-        {% elif search_tag %}
-            <h2 class="centered">({{ search_tag }})에 대한 요약 검색 결과</h2>
+            ({{ search_title }})
         {% endif %}
+        {% if search_description %}
+            ({{ search_description }})
+        {% endif %}
+        {% if search_content %}
+            ({{ search_content }})
+        {% endif %}
+        {% if search_tag %}
+            ({{ search_tag }})
+        {% endif %}
+        에 대한 요약 검색 결과</h2>
         <table id="tbl">
             <tr>
                 <th>번호</th>
@@ -84,10 +94,7 @@
         </table>
     {% else %}
         <p class="centered"><strong><i>
-            ({{ search_title }}) /
-            ({{ search_description }}) /
-            ({{ search_content }}) /
-            ({{ search_tag }})에 대한 검색 결과가 없습니다!
+            검색 결과가 없습니다!
         </i></strong></p>
     {% endif %}
 
