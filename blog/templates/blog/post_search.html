@@ -10,9 +10,10 @@
     <!--form 태그로 폼을 출력, 확인 누르면 POST 방식으로 요청을 동일한 URL로 전송-->
     <!--CSRF 공격(Cross Site Request Forgery) 출처: http://itstory.tk/entry/CSRF-공격이란-그리고-CSRF-방어-방법 [덕's IT Story]-->
     <!--csrf-token 태그를 써서 CSRF 공격을 방지-->
-    <form action="." method="post" class="centered"> {% csrf_token %}
+    <form id="my_form" action="." method="post" class="centered"> {% csrf_token %}
         <!--form은 뷰가 넘겨준 PostSearchForm을 의미함-->
-        {{ form.as_table }}
+        {{ form.as_p }}
+        <!--<button>초기화</button>-->
         <input type="submit" value="확인" />
     </form>
     <br/><br/>
@@ -45,6 +46,51 @@
     {% elif search_term %}
         <p class="centered"><strong><i>({{ search_term }})에 대한 검색 결과가 없습니다!</i></strong></p>
     {% endif %}
+
+    <br/><br/>
+    {% if my_object_list %}
+        {% if search_title %}
+            <h2 class="centered">({{ search_title }})에 대한 제목 검색 결과</h2>
+        {% elif search_description %}
+            <h2 class="centered">({{ search_description }})에 대한 요약 검색 결과</h2>
+        {% elif search_content %}
+            <h2 class="centered">({{ search_content }})에 대한 요약 검색 결과</h2>
+        {% elif search_tag %}
+            <h2 class="centered">({{ search_tag }})에 대한 요약 검색 결과</h2>
+        {% endif %}
+        <table id="tbl">
+            <tr>
+                <th>번호</th>
+                <th>최종 수정일</th>
+                <th>제목</th>
+                <th>슬러그</th>
+                <th>요약</th>
+                <th>태그</th>
+            </tr>
+            {% for post in my_object_list %}
+            <tr>
+                <td>{{ post.id }}</td>
+                <td>{{ post.modify_date|date:"Y년 m월 d일" }}</td>
+                <td>
+                    <a href='{{ post.get_absolute_url }}'>
+                        <strong>{{ post.title }}</strong>
+                    </a>
+                </td>
+                <td>{{ post.slug }}</td>
+                <td>{{ post.description }}</td>
+                <td>{{ post.tag }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p class="centered"><strong><i>
+            ({{ search_title }}) /
+            ({{ search_description }}) /
+            ({{ search_content }}) /
+            ({{ search_tag }})에 대한 검색 결과가 없습니다!
+        </i></strong></p>
+    {% endif %}
+
 </div>
 {% endblock %}
 <!--ch09 작성 종료-->
