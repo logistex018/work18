@@ -1,4 +1,4 @@
-<!--ch09 작성-->
+<!--ch09 작성 시작-->
 {% extends "base.html" %}
 {% block title %}장고 게시글 검색{% endblock %}
 {% load staticfiles %}
@@ -17,7 +17,7 @@
     </form>
     <br/><br/>
     {% if object_list and search_term %}
-        <h2 class="centered">({{ search_term }})에 대한 검색 결과검색 결과</h2>
+        <h2 class="centered">({{ search_term }})에 대한 검색 결과</h2>
         <table id="tbl">
             <tr>
                 <th>번호</th>
@@ -47,3 +47,4 @@
     {% endif %}
 </div>
 {% endblock %}
+<!--ch09 작성 종료-->

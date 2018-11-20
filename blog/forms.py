@@ -1,5 +1,5 @@
 # ch09 1/1 추가 시작
-# 장고에서는 폼도 클래스로 정의 가능
+# 장고에서는 폼도 클래스를 활용하여 정의
 from django import forms
 
 # django.forms.Form 클래스를 상속받아 폼을 작성
