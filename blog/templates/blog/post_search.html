@@ -10,20 +10,24 @@
     <!--form 태그로 폼을 출력, 확인 누르면 POST 방식으로 요청을 동일한 URL로 전송-->
     <!--CSRF 공격(Cross Site Request Forgery) 출처: http://itstory.tk/entry/CSRF-공격이란-그리고-CSRF-방어-방법 [덕's IT Story]-->
     <!--csrf-token 태그를 써서 CSRF 공격을 방지-->
-    <form id="my_form" action="." method="post" class="centered">
+    <form id="my_form" action="." method="post">
         {% csrf_token %}
-        <!--form은 뷰가 넘겨준 PostSearchForm을 의미함-->
-        <!--as_table, as_ul, as_p-->
-        <table>
-             {{ form.as_table }}
-        </table>
-        <!--<button>초기화</button>-->
-        <input type="submit" value="확인" />
-        <!--<input type="button" value="Reset" onClick="this.form.reset()" />-->
+        <div class="centered">
+            <table>
+                <!--form은 뷰가 넘겨준 PostSearchForm을 의미함-->
+                <!--as_table, as_ul, as_p-->
+                 {{ form.as_table }}
+            </table>
+            <!--<button>초기화</button>-->
+            <input type="submit" value="확인" />
+            <!--<input type="button" value="Reset" onClick="this.form.reset()" />-->
+        </div>
     </form>
     <br/><br/>
     {% if object_list and search_term %}
-        <h2 class="centered">({{ search_term }})에 대한 검색 결과</h2>
+        <h2 class="centered">
+            ({{ search_term }})에 대한 <i>통합</i> 검색 결과
+        </h2>
         <table id="tbl">
             <tr>
                 <th>번호</th>
@@ -49,55 +53,82 @@
             {% endfor %}
         </table>
     {% elif search_term %}
-        <p class="centered"><strong><i>({{ search_term }})에 대한 검색 결과가 없습니다!</i></strong></p>
+        <p class="centered"><strong>
+            ({{ search_term }})에 대한 <i>통함</i>검색 결과가 없습니다!
+        </strong></p>
+    {% else %}
+        <p class="centered"><strong>
+            <i>통함</i> 검색어를 입려하세요.
+        </strong></p>
     {% endif %}
 
     <br/><br/>
-    {% if my_object_list %}
-        <h2 class="centered">
-        {% if search_title %}
-            ({{ search_title }})
-        {% endif %}
-        {% if search_description %}
-            ({{ search_description }})
-        {% endif %}
-        {% if search_content %}
-            ({{ search_content }})
-        {% endif %}
-        {% if search_tag %}
-            ({{ search_tag }})
-        {% endif %}
-        에 대한 요약 검색 결과</h2>
-        <table id="tbl">
-            <tr>
-                <th>번호</th>
-                <th>최종 수정일</th>
-                <th>제목</th>
-                <th>슬러그</th>
-                <th>요약</th>
-                <th>태그</th>
-            </tr>
-            {% for post in my_object_list %}
-            <tr>
-                <td>{{ post.id }}</td>
-                <td>{{ post.modify_date|date:"Y년 m월 d일" }}</td>
-                <td>
-                    <a href='{{ post.get_absolute_url }}'>
-                        <strong>{{ post.title }}</strong>
-                    </a>
-                </td>
-                <td>{{ post.slug }}</td>
-                <td>{{ post.description }}</td>
-                <td>{{ post.tag }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-        <p class="centered"><strong><i>
-            검색 결과가 없습니다!
-        </i></strong></p>
-    {% endif %}
 
+    <!--{# 장고 템플릿 언어 if 문에 ()를 사용할 수 없으므로, 중첩 if 문을 써야 한다!!! #}-->
+    <!--{{ search_title }} {{ search_description }} {{ search_content }} {{ search_tag }}-->
+    {% if  search_title or search_description or search_content or search_tag %}
+        {% if my_object_list %}
+            <!--{{ my_object_list }}-->
+            <h2 class="centered">
+                {% if search_title %}
+                    ({{ search_title }})
+                {% endif %}
+                {% if search_description %}
+                    ({{ search_description }})
+                {% endif %}
+                {% if search_content %}
+                    ({{ search_content }})
+                {% endif %}
+                {% if search_tag %}
+                    ({{ search_tag }})
+                {% endif %}에 대한 <i>개별</i> 검색 결과
+            </h2>
+            <table id="tbl">
+                <tr>
+                    <th>번호</th>
+                    <th>최종 수정일</th>
+                    <th>제목</th>
+                    <th>슬러그</th>
+                    <th>요약</th>
+                    <th>태그</th>
+                </tr>
+                {% for post in my_object_list %}
+                <tr>
+                    <td>{{ post.id }}</td>
+                    <td>{{ post.modify_date|date:"Y년 m월 d일" }}</td>
+                    <td>
+                        <a href='{{ post.get_absolute_url }}'>
+                            <strong>{{ post.title }}</strong>
+                        </a>
+                    </td>
+                    <td>{{ post.slug }}</td>
+                    <td>{{ post.description }}</td>
+                    <td>{{ post.tag }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <!--my_object_list 없어!-->
+            <p class="centered"><strong>
+                {% if search_title %}
+                    ({{ search_title }})
+                {% endif %}
+                {% if search_description %}
+                    ({{ search_description }})
+                {% endif %}
+                {% if search_content %}
+                    ({{ search_content }})
+                {% endif %}
+                {% if search_tag %}
+                    ({{ search_tag }})
+                {% endif %}에 대한 <i>개별</i> 검색 결과가 없습니다!
+            </strong></p>
+        {% endif %}
+    {% else %}
+        <p class="centered"><strong>
+            <i>개별</i> 검색어를 입력하세요.
+        </strong></p>
+    {% endif %}
 </div>
 {% endblock %}
 <!--ch09 작성 종료-->
