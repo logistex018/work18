@@ -113,40 +113,27 @@ class SearchFormView(FormView):
         ).distinct()
         # 개별 검색 2/
         my_post_list = []
-        ln = len(my_post_list)
 
         if schTitle :
             my_post_list += Post.objects.filter(
                 Q(title__icontains=schTitle)
             ).distinct()
-        if len(my_post_list) > ln :
-            ln = len(my_post_list)
-        # else:
-        #     schTitle += ' x'
+
         if schDescription :
             my_post_list += Post.objects.filter(
                 Q(description__icontains=schDescription)
             ).distinct()
-        if len(my_post_list) > ln :
-            ln = len(my_post_list)
-        # else:
-        #     schDescription += ' x'
+
         if schContent :
             my_post_list += Post.objects.filter(
                 Q(content__icontains=schContent)
             ).distinct()
-        if len(my_post_list) > ln:
-            ln = len(my_post_list)
-        # else:
-        #     schContent += ' x'
+
         if schTag :
             my_post_list += Post.objects.filter(
                 Q(tag__icontains=schTag)
             ).distinct()
-        if len(my_post_list) > ln:
-            ln = len(my_post_list)
-        # else:
-        #     schTag += ' x'
+
         # 템플릿에 전달할 맥락 변수 context를 사전 형식으로 정의
         context = {}
         context['form'] = form  # 여기서 form은 PostSearchForm을 지칭함

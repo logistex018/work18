@@ -68,7 +68,6 @@
     <!--{{ search_title }} {{ search_description }} {{ search_content }} {{ search_tag }}-->
     {% if  search_title or search_description or search_content or search_tag %}
         {% if my_object_list %}
-            <!--{{ my_object_list }}-->
             <h2 class="centered">
                 {% if search_title %}
                     ({{ search_title }})
@@ -108,7 +107,6 @@
                 {% endfor %}
             </table>
         {% else %}
-            <!--my_object_list 없어!-->
             <p class="centered"><strong>
                 {% if search_title %}
                     ({{ search_title }})
