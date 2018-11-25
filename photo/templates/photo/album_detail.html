@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}앨범{% endblock %}
+
+{% load staticfiles %}
+{% block extrastyle %}{% static "photo/photo.css" %}{% endblock %}
+
+{% block content %}
+<div id="content">
+    <h2 style="display:inline">{{ object.name }}</h2>
+    &nbsp;&nbsp; <b><i>{{ object.description }}</i></b>
+    &nbsp;&nbsp; ({{ object.photo_set.all.count }} 컷)
+    <hr/>
+    <div class="album-detail">
+        {% for photo in object.photo_set.all %}
+        <div class="album-detail-photo">
+            <a href="{{ photo.get_absolute_url }}">
+                <img class="thumbnail" src="{{ photo.image.thumb_url }}" />
+            </a>
+            <li>{{ photo.title }}</li>
+            <li>{{ photo.upload_date|date:"Y년 m월 d일" }}</li>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

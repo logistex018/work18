@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     'tagging.apps.TaggingConfig',       # (ch07) tagging 앱을 추가 등록
     'disqus',                           # (ch08) 1/4
     'django.contrib.sites',             # (ch08) 2/4
+    'photo.apps.PhotoConfig',           # (ch10) 1/1
 ]
+
 DISQUS_WEBSITE_SHORTNAME = 'logistex'   # (ch08) 3/4
 SITE_ID = 1                             # (ch08) 4/4
 
@@ -134,4 +136,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]   # 추가 (교과서 40 쪽)
 
 MEDIA_URL = '/media/'                             # 추가 (교과서 40 쪽)
-MEDIA_ROOT = [os.path.join(BASE_DIR, 'media')]    # 추가 (교과서 40 쪽)
+# MEDIA_ROOT = [os.path.join(BASE_DIR, 'media')]    # 추가 (교과서 40 쪽)
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')    # 추가 (교과서 40 쪽)

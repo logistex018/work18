@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}앨범 목록{% endblock %}
+
+{% load staticfiles %}
+{% block extrastyle %}{% static "photo/photo.css" %}{% endblock %}
+
+{% block content %}
+<div id="content">
+    {% for album in object_list %} <!--AlbumLV 뷰가 앨범 목록을 object_list로 전달-->
+        <div class="clear_float"> <!--photo.css에서 정의한 클래스, 지정된 float 속성을 해제-->
+            <h2 style="display:inline">
+                <a href="{% url 'photo:album_detail' album.id %}">{{ album.name }}</a>
+            </h2>
+            &emsp;<b><i>{{ album.description }}</i></b>
+            &nbsp;&nbsp; ({{ album.photo_set.all.count }} 컷)
+        </div>
+        <hr/>
+        <div class="album-list">
+            {% for photo in album.photo_set.all|slice:":5" %}
+                <div class="album-list-photo">
+                    <a href="{{ photo.get_absolute_url }}">
+                        <img class="thumbnail" src="{{ photo.image.thumb_url }}" />
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
