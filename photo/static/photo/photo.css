@@ -28,20 +28,8 @@ div.album-detail-photo > li {
 
 /* photo_detail.html */
 table.photo-detail {
-    margin: 30px 50px 0 50px;
-    border: 1px solid #ccc;
-}
-
-table.photo-detail td {
-    width: 50%;
-}
-
-table.photo-detail ul li {
-    font-weight: bold;
-}
-
-table.photo-detail ul p {
-    font-style: italic;
+    margin: 30px auto 5px;
+    width: 100%;
 }
 
 /* common */
@@ -52,3 +40,7 @@ img.thumbnail {
 div.clear_float {
     clear: both;
 }
+
+.centered { text-align: center; }
+.col-left { whdth: 10%; text-align: right;}
+.col-right { whdth: 90%; text-align: left;}

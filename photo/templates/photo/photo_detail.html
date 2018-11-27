@@ -1,36 +1,61 @@
 {% extends "base.html" %}
 
-{% block title %}photo_detail.html{% endblock %}
+{% block title %}앨범-사진{% endblock %}
 
 {% load staticfiles %}
 {% block extrastyle %}{% static "photo/photo.css" %}{% endblock %}
 
 {% block content %}
-<div id="content">
-    <h2>{{ object.title }}</h2>
+<div id="content" class="centered" >
+    <h2 class="centered">{{ object.title }}</h2>
+    <p class="centered">
+        <!--newer_id = {{ object.get_newer_photo.id }} newer_url = {{ object.get_previous_photo.get_absolute_url }}</br>-->
+        <!--object.album = {{ object.album }} object.id = {{ object.id }}</br>-->
+        <!--older_id = {{ object.get_older_photo.id }} older_url = {{ object.get_older_photo.get_absolute_url }} </br>-->
+        {% if object.get_newer_photo %}
+            <a href="{{ object.get_newer_photo.get_absolute_url }}" title="다음 사진">
+                {{ object.get_newer_photo }} «--
+            </a>
+        {% else %}
+            끝 사진
+        {% endif %}
+         &nbsp;&nbsp; | &nbsp;&nbsp;
+        {% if object.get_older_photo %}
+            <a href="{{ object.get_older_photo.get_absolute_url }}" title="이전 사진">
+                --» {{ object.get_older_photo }}
+            </a>
+        {% else %}
+            첫 사진
+        {% endif %}
+    </p>
+    <a href="{{ object.image.url }}">
+        <img style="max-width:100%" src="{{ object.image.url }}" />
+    </a>
     <table class="photo-detail">
         <tr>
-            <td>
-                <a href="{{ object.image.url }}">
-                    <img style="max-width:100%" src="{{ object.image.url }}" />
-                </a>
+            <td class="col-left">설명</td>
+            <td class="col-right">
+                {% if object.description %}
+                    <p>{{ object.description|linebreaks }}</p>
+                {% else %}
+                    <p>(blank)</p>
+                {% endif %}
             </td>
-            <td>
-                <ul>
-                    <li>설명</li>
-                    {% if object.description %}
-                        <p>{{ object.description|linebreaks }}</p>
-                    {% else %}
-                        <p>(blank)</p>
-                    {% endif %}
-                    <li>등록 일시</li>
-                    <p>{{ object.upload_date|date:"Y년 m월 d일 H시 i분" }}</p>
-                    <!--https://docs.djangoproject.com/en/dev/ref/templates/builtins/?from=olddocs-->
-                    <li>앨범</li>
-                    <p><a href="{% url 'photo:album_detail' object.album.id %}">{{ object.album.name }}</a></p>
-                </ul>
+        </tr>
+        <tr>
+            <td class="col-left">등록 일시</td>
+            <td class="col-right">
+                <p>{{ object.upload_date|date:"Y년 m월 d일 H시 i분" }}</p>
+                <!--https://docs.djangoproject.com/en/dev/ref/templates/builtins/?from=olddocs-->
+            </td>
+        </tr>
+        <tr>
+            <td class="col-left">앨범</td>
+            <td class="col-right">
+                <p><a href="{% url 'photo:album_detail' object.album.id %}">{{ object.album.name }}</a></p>
             </td>
         </tr>
     </table>
+
 </div>
 {% endblock %}

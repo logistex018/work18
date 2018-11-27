@@ -45,8 +45,9 @@ class Post(models.Model):
         # # Example: /post/django-example/
         # url(r'^post/(?P<slug>[-\w]+)/$', PostDV.as_view(), name='post_detail'),
         return reverse('blog:post_detail', args=(self.slug,))
-    def get_previous_post(self):  # 3.2.5 항에서 템플릿 작성할 때 사용
-        return self.get_previous_by_modify_date()
-
-    def get_next_post(self):  # 3.2.5 항에서 템플릿 작성할 때 사용
-        return self.get_next_by_modify_date()
+    # # <<<<템플릿에서 get_next/previous_by_FOO를 직접 쓴다면 이 부분이 필요없음>>>>
+    # def get_previous_post(self):  # 3.2.5 항에서 템플릿 작성할 때 사용
+    #     return self.get_previous_by_modify_date()
+    #
+    # def get_next_post(self):  # 3.2.5 항에서 템플릿 작성할 때 사용
+    #     return self.get_next_by_modify_date()

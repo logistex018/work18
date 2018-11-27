@@ -21,6 +21,8 @@ class Album(models.Model):
 		# 이 메소드가 정의된 객체의 URL /photo/album/99 형식의 값을 반환
 		return reverse('photo:album_detail', args=(self.id,))
 
+# from django.db.models import Q
+# from django.core.exceptions import ObjectDoesNotExist
 
 class Photo(models.Model):
 	# 자신의 부모(Album)에 대한 외래키
@@ -51,3 +53,75 @@ class Photo(models.Model):
 		# 이 메소드가 정의된 객체의 URL /photo/photo/99 형식의 값을 반환
 		return reverse('photo:photo_detail', args=(self.id,))
 
+	# ver#3.0 https://stackoverflow.com/questions/39947041/how-to-continue-the-object-in-django-get-next-previous-by-date-created-and-publi
+	# filter 사용법: http://brownbears.tistory.com/63
+	def get_newer_photo(self):  						# ch10_nav
+		newer_photo = Photo.objects.filter(
+			upload_date__gt = self.upload_date
+			, album = self.album
+		).order_by('upload_date').first()
+		return newer_photo
+
+	def get_older_photo(self):      					# ch10_nav
+		older_photo = Photo.objects.filter(
+			upload_date__lt = self.upload_date
+			, album = self.album
+		).order_by('-upload_date').first()
+		return older_photo
+
+	# # ver#1.0 이렇게 하면 앨범별로 구분되지 않고 이전/다음 처리가 됨
+	# def get_previous_photo(self):  # ch10_nav
+	# 	return self.get_previous_by_upload_date()
+	#
+	# def get_next_photo(self):  # ch10_nav
+	# 	return self.get_next_by_upload_date()
+
+	# # ver#2.0 이렇게 하면 앨범별로 구분은 되는데, 첫/끝 객체로 이동이 안되네!!!
+	# def get_next_photo(self): 					# ch10_nav
+	# 	while True:
+	# 		next_photo = self.get_next_by_upload_date()
+	# 		if next_photo.album == self.album:
+	# 			break
+	# 		# if not next_photo:
+	# 		# 	break # return None
+	# 		# elif next_photo.album == self.album:
+	# 		# 	break
+	# 		# else:
+	# 		# 	pass # 다음 사진으로 이동
+	# 	return next_photo
+	#
+	# def get_previous_photo(self):  						# ch10_nav
+	# 	while True:
+	# 		prev_photo = self.get_previous_by_upload_date()
+	# 		if not prev_photo:
+	# 			break #return None
+	# 		elif prev_photo.album == self.album:
+	# 			break
+	# 		else:
+	# 			pass # 이전 사진으로 이동
+	# 	return prev_photo
+
+	# # ver#2.5 이렇게 하면 앨범별로 구분은 되는데, 첫/끝 객체로 이동이 안되네!!!
+	# def get_previous_photo(self): 					# ch10_nav
+	# 	while True:
+	# 		try:
+	# 			prev_photo = self.get_previous_by_upload_date()
+	# 			if not prev_photo:
+	# 				return None
+	# 			elif prev_photo and prev_photo.album == self.album:
+	# 				break
+	# 		except ObjectDoesNotExist:
+	# 			return None
+	# 	return prev_photo
+	#
+	# def get_next_photo(self):  						# ch10_nav
+	# 	while True:
+	# 		try:
+	# 			next_photo = self.get_previous_by_upload_date()
+	# 			if not next_photo:
+	# 				return None
+	# 			elif next_photo and next_photo.album == self.album:
+	# 				break
+	# 		except ObjectDoesNotExist:
+	# 			return None
+	# 	return next_photo

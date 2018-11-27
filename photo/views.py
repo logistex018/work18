@@ -15,3 +15,6 @@ class AlbumDV(DetailView):
 
 class PhotoDV(DetailView):
     model = Photo
+
+    # def get_queryset(self):  # 컨텍스트 오버라이딩
+    #     return Photo.objects.filter order_by('-pub_date')[5:]
