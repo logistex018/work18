@@ -29,9 +29,16 @@
         {% endif %}
     </p>
     <a href="{{ object.image.url }}">
-        <img style="max-width:100%" src="{{ object.image.url }}" />
+        <img class="pic-image" src="{{ object.image.url }}" />
     </a>
     <table class="photo-detail">
+        <tr>
+            <td class="col-left">등록 일시</td>
+            <td class="col-right">
+                <p>{{ object.upload_date|date:"Y년 m월 d일 H시 i분" }}</p>
+                <!--https://docs.djangoproject.com/en/dev/ref/templates/builtins/?from=olddocs-->
+            </td>
+        </tr>
         <tr>
             <td class="col-left">설명</td>
             <td class="col-right">
@@ -40,13 +47,6 @@
                 {% else %}
                     <p>(blank)</p>
                 {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td class="col-left">등록 일시</td>
-            <td class="col-right">
-                <p>{{ object.upload_date|date:"Y년 m월 d일 H시 i분" }}</p>
-                <!--https://docs.djangoproject.com/en/dev/ref/templates/builtins/?from=olddocs-->
             </td>
         </tr>
         <tr>

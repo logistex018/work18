@@ -41,6 +41,7 @@ div.clear_float {
     clear: both;
 }
 
+.pic-image { max-height: 500px; width: auto; text-align: center; }
 .centered { text-align: center; }
-.col-left { whdth: 10%; text-align: right;}
-.col-right { whdth: 90%; text-align: left;}
+.col-left { width: 10%; text-align: right;}
+.col-right { width: 90%; text-align: left;}
