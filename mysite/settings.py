@@ -139,7 +139,7 @@ MEDIA_URL = '/media/'                             # 추가 (교과서 40 쪽)
 # MEDIA_ROOT = [os.path.join(BASE_DIR, 'media')]    # 추가 (교과서 40 쪽)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')    # 추가 (교과서 40 쪽)
 
-#                                                                           ch11 1/1 추가
+# ch11 1/1 추가
 # 로그인 페이지로 리다이렉트시키는 URL(login_required() 데코레이터에서 사용함)
 # LOGIN_URL = '/accounts/login/'        # 기본값 사용
 # 로그아웃 페이지로 리다이렉트시키는 URL

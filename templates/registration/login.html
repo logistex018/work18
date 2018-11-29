@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}입국{% endblock %}
+{% block title %}로그인{% endblock %}
 
 {% load staticfiles %}
 {% block extrastyle %}{% static "css/forms.css" %}{% endblock %}
@@ -8,7 +8,7 @@
 {% block content %}
 <div id="content">
 
-    <h1>입국 신고</h1>
+    <h1>로그인</h1>
 
     <form action="." method="post">{% csrf_token %}
 
@@ -21,6 +21,7 @@
     <fieldset class="aligned">
 
         <div class="form-row">
+            <!-- form 변수는 login() 뷰에서 넘겨주는 AuthenticationForm 객체 -->
             {{ form.username.label_tag }} {{ form.username }}
         </div>
     
@@ -31,11 +32,15 @@
     </fieldset>
 
     <div class="submit-row">
-        <input type="submit" value="입국"/>
+        <input type="submit" value="로그인"/>
         <!-- input type="hidden" name="next" value="/" / -->
+        <!-- 아래에서 숨겨진 입력 요소의  value 항목에 "{{ next }}"가 지정되어 있음 -->
+        <!-- login() 뷰가 POST 요청을 처리한 후, {{ next }} 변수에 저장된 URL로 리다이렉트됨 -->
+        <!-- {{ next }} 변수가 없다면, settings.LOGIN_REDIRECT_URL 항목에 지정된 URL이 적용됨 -->
+        <!-- 이 항목도 없으면, 기본값으로 /accounts/profile/ URL을 적용함 -->
         <input type="hidden" name="next" value="{{ next }}" />
     </div>
-
+    <!-- 자바스크립트 활용 -->
     <script type="text/javascript">document.getElementById('id_username').focus();</script>
     </form>
 
