@@ -36,7 +36,7 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'django.contrib.admin',
-    'django.contrib.auth',
+    'django.contrib.auth',          # ch11 확인
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -138,3 +138,12 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]   # 추가 (교과서 40 �
 MEDIA_URL = '/media/'                             # 추가 (교과서 40 쪽)
 # MEDIA_ROOT = [os.path.join(BASE_DIR, 'media')]    # 추가 (교과서 40 쪽)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')    # 추가 (교과서 40 쪽)
+
+#                                                                           ch11 1/1 추가
+# 로그인 페이지로 리다이렉트시키는 URL(login_required() 데코레이터에서 사용함)
+# LOGIN_URL = '/accounts/login/'        # 기본값 사용
+# 로그아웃 페이지로 리다이렉트시키는 URL
+# LOGOUT_URL = '/accounts/logout/'      # 기본값 사용
+# 장고 기본 로그인 뷰 contrib.auth.login()는 로그인 성공 시 next 매개변수로 지정한 URL로 리다이렉트 하는데,
+# 만일 next 매개변수가 지정되지 않으면 이 URL로 리다이렉트 시킴(login_required() 데코레이터에서 사용함)
+LOGIN_REDIRECT_URL = '/'

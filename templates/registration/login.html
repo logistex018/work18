@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}입국{% endblock %}
+
+{% load staticfiles %}
+{% block extrastyle %}{% static "css/forms.css" %}{% endblock %}
+
+{% block content %}
+<div id="content">
+
+    <h1>입국 신고</h1>
+
+    <form action="." method="post">{% csrf_token %}
+
+    {% if form.errors %}
+    <p class="errornote">문제가 있네요. 아래 오류를 정정해주세요.</p>
+    {% endif %}
+
+    <p>아이디와 비밀번호를 알려 주세요.</p>
+
+    <fieldset class="aligned">
+
+        <div class="form-row">
+            {{ form.username.label_tag }} {{ form.username }}
+        </div>
+    
+        <div class="form-row">
+            {{ form.password.label_tag }} {{ form.password }}
+        </div>
+
+    </fieldset>
+
+    <div class="submit-row">
+        <input type="submit" value="입국"/>
+        <!-- input type="hidden" name="next" value="/" / -->
+        <input type="hidden" name="next" value="{{ next }}" />
+    </div>
+
+    <script type="text/javascript">document.getElementById('id_username').focus();</script>
+    </form>
+
+</div>
+{% endblock %}

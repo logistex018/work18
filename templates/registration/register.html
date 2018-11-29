@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}회원 가입{% endblock %}
+
+{% load staticfiles %}
+{% block extrastyle %}{% static "css/forms.css" %}{% endblock %}
+
+{% block content %}
+<div id="content">
+
+    <h1>새 회원 가입을 환영합니다.</h1>
+
+    <form method="post" action="."> {% csrf_token %}
+
+    {% if form.errors %}
+        <p class="error-note">회원 가입에 문제가 생겼네요. 아래 사항을 확인해주세요. </br>
+            {{ form.errors }}
+        </p>
+    {% endif %}
+    
+    <p>회원님에 대해 알려주세요.</p>
+    
+    <fieldset class="aligned">
+    
+        <div class="form-row">
+            {{ form.username.label_tag }} {{ form.username }}
+        </div>
+        
+        <div class="form-row">
+            {{ form.password1.label_tag }} {{ form.password1 }}
+        </div>
+        
+        <div class="form-row">
+            {{ form.password2.label_tag }} {{ form.password2 }}
+        </div>
+    
+    </fieldset>
+    
+    <div class="submit-row">
+        <input type="submit" value="회원 가입"/>
+    </div>
+    
+    <script type="text/javascript">document.getElementById("id_username").focus();</script>
+    </form>
+
+</div>
+{% endblock %}
